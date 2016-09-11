@@ -21,16 +21,9 @@ class AuthNavigator extends Component{
       confirmation: ''
     };
 
-    this.goToLogin = this.goToLogin.bind(this);
     this.createUser = this.createUser.bind(this);
     this.createProfile = this.createProfile.bind(this);
     this.handleErrors = this.handleErrors.bind(this);
-  }
-
-  goToLogin() {
-    this.props.navigator.push({
-      component: Login
-    });
   }
 
   createUser() {

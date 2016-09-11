@@ -3,6 +3,7 @@ import {
   Text,
   View,
   ScrollView,
+  Navigator,
   TouchableHighlight
 } from 'react-native';
 
@@ -25,15 +26,23 @@ class Account extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  componentDidMount() {
-
-  }
-
   logout() {
     firebase.auth().signOut();
   }
 
+  goTo(view) {
+    this.props.navigator.push({
+      component: view
+    });
+  }
+
   render() {
+    routes = [
+      {component: 'EditName'},
+      {component: 'EditEmail'},
+      {component: 'ResetPassword'}
+    ];
+
     return (
       <ScrollView
         contentContainerStyle={styles.scrollView}>
@@ -41,21 +50,21 @@ class Account extends Component {
         </View>
 
         <View style={AccountStyles.editAndLogoutContainer}>
-          <TouchableHighlight onPress={this.edit} style={AccountStyles.profileInfo}>
+          <TouchableHighlight onPress={() => this.goTo('Name')} style={AccountStyles.profileInfo}>
             <View style={AccountStyles.profileView}>
               <Text style={AccountStyles.profileTextLabel}>Name</Text>
               <Text style={AccountStyles.profileText}>{this.state.currentUser.displayName}</Text>
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={this.edit} style={AccountStyles.profileInfo}>
+          <TouchableHighlight onPress={() => this.goTo('Email')} style={AccountStyles.profileInfo}>
             <View style={AccountStyles.profileView}>
               <Text style={AccountStyles.profileTextLabel}>Email</Text>
               <Text style={AccountStyles.profileText}>{this.state.currentUser.email}</Text>
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={this.edit} style={AccountStyles.profileInfo}>
+          <TouchableHighlight onPress={() => this.goTo('ResetPassword')} style={AccountStyles.profileInfo}>
             <View style={AccountStyles.profileView}>
               <Text style={AccountStyles.profileTextLabel}>Reset Password</Text>
             </View>

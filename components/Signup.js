@@ -9,7 +9,8 @@ import {
 
 const firebaseApp = require('../config.js');
 
-const styles = require('../styles.js');
+const {styles, LoginStyles} = require('../styles.js');
+import Button from './Button.js';
 
 const Login = require('./Login');
 
@@ -29,6 +30,7 @@ class Signup extends Component{
     this.goToLogin = this.goToLogin.bind(this);
     this.createUser = this.createUser.bind(this);
     this.createProfile = this.createProfile.bind(this);
+    this.addToDatabase = this.addToDatabase.bind(this);
     this.handleErrors = this.handleErrors.bind(this);
   }
 
@@ -39,25 +41,26 @@ class Signup extends Component{
   }
 
   createUser() {
-    const profile = (user) => {
-      console.log('user created', this);
-      firebase.database().ref('users/' + user.uid).set({
-        name: this.state.name,
-        email: user.email
-      });
-    };
-
     firebaseApp.auth().createUserWithEmailAndPassword(
       this.state.email, this.state.password
     )
     .then(this.createProfile)
+    .then(this.addToDatabase)
     .catch(this.handleErrors);
   }
 
   createProfile(user) {
-    console.log(user);
     user.updateProfile({
       displayName: this.state.name,
+    });
+
+    return Promise.resolve(user);
+  }
+
+  addToDatabase(user) {
+    firebaseApp.database().ref('users/' + user.uid).set({
+      name: user.displayName,
+      email: user.email
     });
   }
 
@@ -106,11 +109,11 @@ class Signup extends Component{
           placeholder="Confirm Password"
         />
 
-        <TouchableHighlight onPress={this.createUser}>
-          <View>
-            <Text>Create your account</Text>
-          </View>
-        </TouchableHighlight>
+        <Button
+          text='Create your account'
+          onPress={this.createUser}
+          button_styles={LoginStyles.loginButton}
+          />
 
         <TouchableHighlight onPress={this.goToLogin}>
           <View>

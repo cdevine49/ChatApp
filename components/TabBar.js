@@ -2,13 +2,17 @@ import React from 'React';
 import {
   TabBarIOS,
   Text,
-  View
+  View,
+  Navigator
 } from 'react-native';
 
 import {styles} from '../styles.js';
 
 var ConversationsList = require('./ConversationsList');
 var Account = require('./Account');
+import Name from './Name.js';
+import Email from './Email.js';
+import ResetPassword from './ResetPassword.js';
 
 class TabBar extends React.Component {
 
@@ -30,6 +34,13 @@ class TabBar extends React.Component {
   }
 
   render() {
+
+    const accountRoutes = [
+      {component: "Account"},
+      {component: "Name"},
+      {component: "Email"},
+      {component: "ResetPassword"},
+    ];
 
     return (
       <TabBarIOS>
@@ -71,7 +82,24 @@ class TabBar extends React.Component {
           onPress={() => {
             this.setState({ selectedTab: "Account" });
           }}>
-          <Account />
+          <Navigator
+            initialRoute={accountRoutes[0]}
+            renderScene={(route, navigator) => {
+              switch (route.component) {
+                case 'Account':
+                  return <Account navigator={navigator}/>;
+                case 'Name':
+                  return <Name navigator={navigator}/>;
+                case 'Email':
+                  return <Email navigator={navigator}/>;
+                case 'ResetPassword':
+                  return <ResetPassword navigator={navigator}/>;
+              }
+            }}
+            configureScene={(route, routeStack) =>
+              Navigator.SceneConfigs.FadeAndroid
+            }
+          />
         </TabBarIOS.Item>
       </TabBarIOS>
     );
