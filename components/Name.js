@@ -25,8 +25,15 @@ export default class Name extends Component {
   }
 
   onSave() {
-    firebaseApp.auth().currentUser.updateProfile({
+    user = firebaseApp.auth().currentUser;
+
+    user.updateProfile({
       displayName: this.state.name,
+    })
+    .then( () => {
+      firebaseApp.database().ref('users/' + user.uid).update({
+        name: user.displayName,
+      });
     })
     .then(this.props.navigator.pop);
   }

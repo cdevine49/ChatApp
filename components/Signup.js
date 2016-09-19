@@ -59,7 +59,7 @@ class Signup extends Component{
 
   addToDatabase(user) {
     firebaseApp.database().ref('users/' + user.uid).set({
-      name: user.displayName,
+      name: this.state.name,
       email: user.email
     });
   }

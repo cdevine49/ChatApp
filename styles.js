@@ -239,6 +239,37 @@ export const ButtonStyles = StyleSheet.create({
   }
 });
 
+export const SearchBarStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    backgroundColor: '#eee',
+    justifyContent: 'center',
+    paddingTop: 30,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingBottom: 8
+  },
+
+  searchBar: {
+    flex: 7,
+    height: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
+    backgroundColor: '#fff',
+    borderRadius: 3,
+  },
+
+  cancel: {
+    flex: 2,
+  },
+
+  text: {
+    textAlign: 'center',
+    color: '#428bca'
+  },
+});
 
 
 

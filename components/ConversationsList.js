@@ -1,9 +1,11 @@
 import React, {Component} from 'React';
 import {
   Text,
-  ListView
+  ListView,
+  View
 } from 'react-native';
 
+import Search from './Search';
 var ConversationItem = require('./ConversationItem');
 
 const firebaseApp = require('../config.js');
@@ -38,7 +40,6 @@ class ConversationsList extends Component {
           _key: child.key
         });
       });
-
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(conversations),
       });
@@ -55,7 +56,9 @@ class ConversationsList extends Component {
   render() {
 
     return (
-      <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
+      <View>
+        <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
+      </View>
     );
   }
 }

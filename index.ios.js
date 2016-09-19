@@ -2,16 +2,13 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  TabBarIOS,
   Text,
   View
 } from 'react-native';
 
 const firebase = require('./config.js');
-var TabBar = require('./components/TabBar.js');
+import Main from './components/Main.js';
 var AuthNavigator = require('./components/AuthNavigator.js');
-var Login = require('./components/Login.js');
 
 class ChatApp extends Component {
   constructor() {
@@ -24,9 +21,9 @@ class ChatApp extends Component {
   componentDidMount() {
     this.authstatelistener = firebase.auth().onAuthStateChanged((authData) => {
       if (authData) {
-        this.setState({ component: <TabBar />});
+        this.setState({ component: <Main /> });
       } else {
-        this.setState({ component: <AuthNavigator />});
+        this.setState({ component: <AuthNavigator /> });
       }
     });
   }
