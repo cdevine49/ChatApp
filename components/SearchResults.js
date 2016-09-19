@@ -17,7 +17,7 @@ export default class SearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: new ListView.DataSource({
+      users: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
       // .cloneWithRows(this.props.users),
@@ -57,7 +57,7 @@ export default class SearchResults extends Component {
           name: child.val().name,
         });
       });
-      this.setState({ dataSource: this.state.dataSource.cloneWithRows(users) });
+      this.setState({ users: this.state.users.cloneWithRows(users) });
     });
 
   }
@@ -90,7 +90,9 @@ export default class SearchResults extends Component {
   render() {
 
     return (
-      <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
+      <View>
+        <ListView dataSource={this.state.users} renderRow={this.renderRow}></ListView>
+      </View>
     );
   }
 }

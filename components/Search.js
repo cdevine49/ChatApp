@@ -81,7 +81,7 @@ export default class Search extends Component {
           onFocus={this._startSearch}
           style={SearchBarStyles.searchBar}
         />
-      {this.searching()}
+        {this.searching()}
       </View>
     );
   }

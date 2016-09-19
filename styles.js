@@ -252,9 +252,9 @@ export const SearchBarStyles = StyleSheet.create({
 
   searchBar: {
     flex: 7,
-    height: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
+    height: 25,
+    paddingTop: 2,
+    paddingBottom: 2,
     paddingRight: 20,
     paddingLeft: 20,
     backgroundColor: '#fff',
@@ -263,6 +263,7 @@ export const SearchBarStyles = StyleSheet.create({
 
   cancel: {
     flex: 2,
+    alignSelf: 'center'
   },
 
   text: {

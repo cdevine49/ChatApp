@@ -60,6 +60,7 @@ class Signup extends Component{
   addToDatabase(user) {
     firebaseApp.database().ref('users/' + user.uid).set({
       name: this.state.name,
+      sortName: this.state.name.toLowerCase(),
       email: user.email
     });
   }

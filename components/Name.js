@@ -33,6 +33,7 @@ export default class Name extends Component {
     .then( () => {
       firebaseApp.database().ref('users/' + user.uid).update({
         name: user.displayName,
+        sortName: user.displayName.toLowerCase()
       });
     })
     .then(this.props.navigator.pop);
@@ -50,8 +51,8 @@ export default class Name extends Component {
             style={EditStyles.editField}
             autoFocus={true}
           />
-        <Text style={EditStyles.endText}>Your name is the main way friends will find you on Chatter.</Text>
-      </View>
+          <Text style={EditStyles.endText}>Your name is the main way friends will find you on Chatter.</Text>
+        </View>
       <KeyboardSpacer />
     </View>
     );
