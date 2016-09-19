@@ -247,7 +247,7 @@ export const SearchBarStyles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 8,
     paddingRight: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
   },
 
   searchBar: {

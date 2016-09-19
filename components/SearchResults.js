@@ -2,7 +2,8 @@ import React, {Component} from 'React';
 import {
   Text,
   ListView,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 import Search from './Search';
@@ -25,6 +26,7 @@ export default class SearchResults extends Component {
 
     this.renderRow = this.renderRow.bind(this);
     this._search = this._search.bind(this);
+    this.message = this.message.bind(this);
 
     this.usersRef = firebaseApp.database().ref().child("users");
   }
@@ -33,9 +35,9 @@ export default class SearchResults extends Component {
     this._search(this.props.term);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this._search(nextProps.term);
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this._search(nextProps.term);
+  // }
 
   _search(term) {
     const start = term.toLowerCase();
@@ -54,6 +56,7 @@ export default class SearchResults extends Component {
       var users = [];
       snap.forEach((child) => {
         users.push({
+          uid: child.key,
           name: child.val().name,
         });
       });
@@ -62,28 +65,16 @@ export default class SearchResults extends Component {
 
   }
 
-  // listenForConversations(conversationsRef) {
-  //   conversationsRef.on('value', (snap) => {
-  //     // get children as an array
-  //     var conversations = [];
-  //     snap.forEach((child) => {
-  //       conversations.push({
-  //         title: child.val().title,
-  //         _key: child.key
-  //       });
-  //     });
-  //
-  //     this.setState({
-  //       dataSource: this.state.dataSource.cloneWithRows(conversations),
-  //     });
-  //
-  //   });
-  // }
+  message(user) {
+    this.props.navigator.push({ component: 'Conversation', users: [user] });
+  }
 
-  renderRow(item) {
-    // <SearchItem item={item} />
+  renderRow(user) {
+    // <SearchItem user={user} />
     return (
-      <Text>{item.name}</Text>
+      <TouchableHighlight onPress={() => this.message(user)}>
+        <Text>{user.name}</Text>
+      </TouchableHighlight>
     );
   }
 

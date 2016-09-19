@@ -9,6 +9,7 @@ import {
 import {styles} from '../styles.js';
 
 var ConversationsList = require('./ConversationsList');
+import Conversation from './Conversation';
 var Account = require('./Account');
 import Name from './Name.js';
 import Email from './Email.js';
@@ -22,7 +23,6 @@ export default class Main extends React.Component {
     super();
     this.state = {
       selectedTab: "Home",
-      searching: false,
       searchTerm: ''
     };
 
@@ -35,10 +35,6 @@ export default class Main extends React.Component {
         <Text>{this.state.selectedTab}</Text>
       </View>
     );
-  }
-
-  searching(bool) {
-    this.setState({ searching: bool });
   }
 
   setTerm(term) {
@@ -56,7 +52,7 @@ export default class Main extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <Search searching={this.searching.bind(this)} setTerm={this.setTerm.bind(this)}/>
+
         <TabBarIOS>
 
           <TabBarIOS.Item
@@ -66,7 +62,25 @@ export default class Main extends React.Component {
             onPress={() => {
               this.setState({ selectedTab: "Home" });
             }}>
-            {this.state.searching ? <SearchResults term={this.state.searchTerm} /> : <ConversationsList />}
+            <Navigator
+              style={{flex: 1, flexDirection: 'column-reverse'}}
+              initialRoute={{component: 'Home'}}
+              navigationBar={<Search />}
+              renderScene={(route, navigator) => {
+                switch (route.component) {
+                  case 'Home':
+                    return <ConversationsList navigator={navigator} />;
+                  case 'Search':
+                    return <SearchResults navigator={navigator} term={route.term} />;
+                  case 'Conversation':
+                    return <Conversation navigator={navigator} users={route.users} />;
+                }
+              }}
+              configureScene={(route, routeStack) =>
+                Navigator.SceneConfigs.FadeAndroid
+              }
+            />
+
           </TabBarIOS.Item>
 
           <TabBarIOS.Item
