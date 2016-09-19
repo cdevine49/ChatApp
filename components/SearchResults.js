@@ -46,7 +46,7 @@ export default class SearchResults extends Component {
     const alpharry = "abcdefghijklmnopqrstuvwxyz".split('');
     const end = start.slice(0, start.length - 1) + alpharry[last];
 
-    this.usersRef.orderByChild('name')
+    this.usersRef.orderByChild('sortName')
     .startAt(start)
     .endAt(end)
     .limitToFirst(5)
