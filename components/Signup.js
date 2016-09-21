@@ -12,6 +12,7 @@ const firebaseApp = require('../config.js');
 
 const {styles, LoginStyles} = require('../styles.js');
 import Button from './Button.js';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 const Login = require('./Login');
 
@@ -34,7 +35,7 @@ class Signup extends Component{
     this.addToDatabase = this.addToDatabase.bind(this);
     this.handleErrors = this.handleErrors.bind(this);
     this.focusNext = this.focusNext.bind(this);
-    this.confirmPassword = this.confirmPassword.bind(this);
+    this.verifyInfo = this.verifyInfo.bind(this);
   }
 
   goToLogin() {
@@ -43,7 +44,7 @@ class Signup extends Component{
     });
   }
 
-  confirmPassword() {
+  verifyInfo() {
     if (this.state.password === this.state.confirmation) {
       this.createUser();
     } else {
@@ -86,12 +87,15 @@ class Signup extends Component{
     switch(error.code) {
       case "auth/email-already-in-use":
         alert("Email already in use");
+        this.focusNext('2');
         break;
       case "auth/invalid-email":
         alert("Your email is invalid");
+        this.focusNext('2');
         break;
       case "auth/weak-password":
         alert("Password must be 6 characters or longer");
+        this.focusNext('3');
         break;
       default:
         alert("Error creating user");
@@ -140,12 +144,12 @@ class Signup extends Component{
           autoCapitalize="none"
           onChangeText={(confirmation) => this.setState({ confirmation: confirmation })}
           placeholder="Confirm Password"
-          onSubmitEditing={() => this.confirmPassword('4')}
+          onSubmitEditing={() => this.verifyInfo('4')}
         />
 
         <Button
           text='Create your account'
-          onPress={this.confirmPassword}
+          onPress={this.verifyInfo}
           button_styles={LoginStyles.loginButton}
           />
 
@@ -154,6 +158,7 @@ class Signup extends Component{
             <Text>Login to existing account</Text>
           </View>
         </TouchableHighlight>
+        <KeyboardSpacer />
       </View>
     );
   }
