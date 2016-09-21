@@ -27,20 +27,20 @@ export default class Conversation extends Component {
       return user.uid;
     });
 
-    uids = uids.sort();
+    this.uids = uids.sort();
 
-    this.messageRef = firebaseApp.database().ref("messages/" + uids.join('_'));
+    this.conversationRef = firebaseApp.database().ref("conversations/" + this.uids.join('_'));
 
-    this.messageListener = this.messageListener.bind(this);
+    this.conversationListener = this.conversationListener.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
 
   componentDidMount() {
-    this.messageListener(this.messageRef);
+    this.conversationListener(this.conversationRef);
   }
 
-  messageListener(messageRef) {
-    messageRef.on('value', (snap) => {
+  conversationListener(conversationRef) {
+    conversationRef.on('value', (snap) => {
       // get children as an array
       var messages = [];
       snap.forEach((child) => {
@@ -60,7 +60,7 @@ export default class Conversation extends Component {
   renderRow(message) {
     // <Message text={message} />
     return (
-      <Text>MessageExample</Text>
+      <Text>{message.author+ ': ' + message.content}</Text>
     );
   }
 
@@ -69,7 +69,7 @@ export default class Conversation extends Component {
     return (
       <View>
         <ListView dataSource={this.state.messages} renderRow={this.renderRow}></ListView>
-        <PostMessage messageRef={this.messageRef}/>
+        <PostMessage conversationRef={this.conversationRef} uids={this.uids} />
       </View>
     );
   }

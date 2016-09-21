@@ -23,10 +23,25 @@ export default class PostMessage extends Component {
   }
 
   sendMessage() {
-    this.props.messageRef.push({
+    const messageData = {
       author: firebaseApp.auth().currentUser.displayName,
-      content: this.state.message
+      content: this.state.message,
+      timeSent: Date.now()
+    };
+
+    // const messageKey = this.props.conversationRef.push().key;
+    const path = 'conversations/' + this.props.uids.join('_');
+    const messageKey = firebaseApp.database().ref()
+    .child(path).push().key;
+
+    var updates = {};
+    this.props.uids.forEach((uid) => {
+      updates['users/' + uid + '/' + path] = { [messageKey]: messageData };
     });
+    updates[path + '/' + messageKey] = messageData;
+
+    firebaseApp.database().ref().update(updates);
+    this.setState({ message: '' });
   }
 
   render() {
