@@ -8,6 +8,7 @@ import {
 
 const firebaseApp = require('../config.js');
 
+import PostMessage from './PostMessage.js';
 import {styles} from '../styles.js';
 
 export default class Conversation extends Component {
@@ -28,7 +29,7 @@ export default class Conversation extends Component {
 
     uids = uids.sort();
 
-    this.messageRef = firebaseApp.database().ref("messages" + uids.join(' '));
+    this.messageRef = firebaseApp.database().ref("messages/" + uids.join('_'));
 
     this.messageListener = this.messageListener.bind(this);
     this.renderRow = this.renderRow.bind(this);
@@ -50,15 +51,16 @@ export default class Conversation extends Component {
         });
       });
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(messages),
+        messages: this.state.messages.cloneWithRows(messages),
       });
 
     });
   }
 
   renderRow(message) {
+    // <Message text={message} />
     return (
-      <Message text={message} />
+      <Text>MessageExample</Text>
     );
   }
 
@@ -66,8 +68,8 @@ export default class Conversation extends Component {
 
     return (
       <View>
-        <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
-        <PostMessage messageRef={this.messageRef} />
+        <ListView dataSource={this.state.messages} renderRow={this.renderRow}></ListView>
+        <PostMessage messageRef={this.messageRef}/>
       </View>
     );
   }

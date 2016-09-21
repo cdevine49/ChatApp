@@ -272,6 +272,32 @@ export const SearchBarStyles = StyleSheet.create({
   },
 });
 
+export const PostMessageStyles = StyleSheet.create({
+  container: {
+
+  },
+
+  newMessage: {
+    height: 25,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingRight: 5,
+    paddingLeft: 5,
+    backgroundColor: '#fff',
+    borderRadius: 3,
+  },
+
+  sendButton: {
+    padding: 2,
+    borderWidth: 0,
+    // borderStyle: 'solid',
+    // borderColor: '#1b5480',
+    // borderRadius: 5,
+    backgroundColor: 'transparent',
+    alignItems: 'center'
+
+  }
+});
 
 
 
