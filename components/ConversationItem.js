@@ -3,15 +3,13 @@ import { View, TouchableHighlight, Text } from 'react-native';
 
 import {styles} from '../styles.js';
 
-class ListItem extends Component {
+export default class ConversationItem extends Component {
   render() {
     return (
-      <Text>Conversation</Text>
+      <Text>{this.props.message.author + ': ' + this.props.message.message}</Text>
     );
   }
 }
-
-module.exports = ListItem;
 
 // <TouchableHighlight onPress={this.props.onPress}>
 //   <View style={styles.li}>

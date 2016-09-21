@@ -25,7 +25,7 @@ export default class PostMessage extends Component {
   sendMessage() {
     const messageData = {
       author: firebaseApp.auth().currentUser.displayName,
-      content: this.state.message,
+      message: this.state.message,
       timeSent: Date.now()
     };
 
@@ -36,7 +36,7 @@ export default class PostMessage extends Component {
 
     var updates = {};
     this.props.uids.forEach((uid) => {
-      updates['users/' + uid + '/' + path] = { [messageKey]: messageData };
+      updates['users/' + uid + '/' + path] = messageData;
     });
     updates[path + '/' + messageKey] = messageData;
 

@@ -46,7 +46,7 @@ export default class Conversation extends Component {
       snap.forEach((child) => {
         messages.push({
           author: child.val().author,
-          content: child.val().content,
+          message: child.val().message,
           _key: child.key
         });
       });
@@ -60,7 +60,7 @@ export default class Conversation extends Component {
   renderRow(message) {
     // <Message text={message} />
     return (
-      <Text>{message.author+ ': ' + message.content}</Text>
+      <Text>{message.author+ ': ' + message.message}</Text>
     );
   }
 

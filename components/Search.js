@@ -29,7 +29,7 @@ export default class Search extends Component {
 
   _endSearch() {
     this.refs._search.blur();
-    for ( var i = 0; i < this.state.term; i++ ) {
+    for ( var i = 0; i < this.state.term.length; i++ ) {
       this.props.navigator.pop();
     }
     this.setState({ searching: false, term: '' });
@@ -53,9 +53,6 @@ export default class Search extends Component {
     } else if (term.length < this.state.term.length) {
       this.props.navigator.pop();
     }
-
-    // else if (term.length === 0 && this.state.term.length === 1) {
-    // }
 
     this.setState({ term: term });
   }

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import Search from './Search';
-var ConversationItem = require('./ConversationItem');
+import ConversationItem from './ConversationItem';
 
 const firebaseApp = require('../config.js');
 
@@ -21,7 +21,9 @@ class ConversationsList extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
     };
-    this.conversationsRef = firebaseApp.database().ref().child("conversations");
+    const uid = firebaseApp.auth().currentUser.uid;
+    this.conversationsRef = firebaseApp.database().ref()
+    .child('users/' + uid + '/conversations');
     this.listenForConversations = this.listenForConversations.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
@@ -31,13 +33,16 @@ class ConversationsList extends Component {
   }
 
   listenForConversations(conversationsRef) {
-    conversationsRef.on('value', (snap) => {
+    conversationsRef.orderByChild('timeSent')
+    .on('value', (snap) => {
       // get children as an array
       var conversations = [];
       snap.forEach((child) => {
-        conversations.push({
-          title: child.val().title,
-          _key: child.key
+        conversations.unshift({
+          _key: child.key,
+          author: child.val().author,
+          message: child.val().message,
+          sent: child.val().timeSent,
         });
       });
       this.setState({
@@ -47,17 +52,17 @@ class ConversationsList extends Component {
     });
   }
 
-  renderRow(item) {
+  renderRow(message) {
     return (
-      <ConversationItem item={item} />
+      <ConversationItem message={message} />
     );
   }
 
   render() {
 
     return (
-      <View>
-        <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
+      <View style={{flex: 1, }}>
+        <ListView style={{flex: 1, backgroundColor: 'green'}} dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
       </View>
     );
   }
