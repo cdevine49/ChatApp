@@ -15,7 +15,7 @@ export default class Conversation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: new ListView.DataSource({
+      messages: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
@@ -28,18 +28,46 @@ export default class Conversation extends Component {
 
     uids = uids.sort();
 
-    this.messageRef = firebaseApp.database().ref("messages" + uids.join(','));
+    this.messageRef = firebaseApp.database().ref("messages" + uids.join(' '));
+
+    this.messageListener = this.messageListener.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   componentDidMount() {
+    this.messageListener(this.messageRef);
   }
 
+  messageListener(messageRef) {
+    messageRef.on('value', (snap) => {
+      // get children as an array
+      var messages = [];
+      snap.forEach((child) => {
+        messages.push({
+          author: child.val().author,
+          content: child.val().content,
+          _key: child.key
+        });
+      });
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(messages),
+      });
+
+    });
+  }
+
+  renderRow(message) {
+    return (
+      <Message text={message} />
+    );
+  }
 
   render() {
 
     return (
       <View>
-        <Text>Conversation</Text>
+        <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
+        <PostMessage messageRef={this.messageRef} />
       </View>
     );
   }
