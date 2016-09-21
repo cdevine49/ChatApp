@@ -35,9 +35,9 @@ export default class SearchResults extends Component {
     this._search(this.props.term);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this._search(nextProps.term);
-  // }
+  componentWillReceiveProps(nextProps) {
+    this._search(nextProps.term);
+  }
 
   _search(term) {
     const start = term.toLowerCase();

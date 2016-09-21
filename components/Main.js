@@ -65,11 +65,13 @@ export default class Main extends React.Component {
             <Navigator
               style={{flex: 1, flexDirection: 'column-reverse'}}
               initialRoute={{component: 'Home'}}
-              navigationBar={<Search />}
+
               renderScene={(route, navigator) => {
                 switch (route.component) {
                   case 'Home':
                     return <ConversationsList navigator={navigator} />;
+                  case 'Searching':
+                    return <Search navigator={navigator} term={route.term}/>;
                   case 'Search':
                     return <SearchResults navigator={navigator} term={route.term} />;
                   case 'Conversation':

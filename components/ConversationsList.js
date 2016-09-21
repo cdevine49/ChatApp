@@ -2,6 +2,7 @@ import React, {Component} from 'React';
 import {
   Text,
   ListView,
+  TextInput,
   View
 } from 'react-native';
 
@@ -10,7 +11,7 @@ import ConversationItem from './ConversationItem';
 
 const firebaseApp = require('../config.js');
 
-import {styles} from '../styles.js';
+import {styles, SearchBarStyles} from '../styles.js';
 
 class ConversationsList extends Component {
 
@@ -25,7 +26,9 @@ class ConversationsList extends Component {
     this.conversationsRef = firebaseApp.database().ref()
     .child('users/' + uid + '/conversations');
     this.listenForConversations = this.listenForConversations.bind(this);
+
     this.renderRow = this.renderRow.bind(this);
+    this._startSearch = this._startSearch.bind(this);
   }
 
   componentDidMount() {
@@ -54,14 +57,28 @@ class ConversationsList extends Component {
 
   renderRow(message) {
     return (
-      <ConversationItem message={message} />
+      <ConversationItem message={message} navigator={this.props.navigator}/>
     );
+  }
+
+  _startSearch() {
+    return null;
   }
 
   render() {
 
     return (
       <View style={{flex: 1, }}>
+        <View style={SearchBarStyles.container}>
+          <TextInput
+            value=''
+            onChangeText={ (term) => this.props.navigator.push({ component: 'Searching', term: term }) }
+            placeholder="Search"
+            autoCapitalize="none"
+            onFocus={this._startSearch}
+            style={SearchBarStyles.searchBar}
+          />
+        </View>
         <ListView style={{flex: 1, backgroundColor: 'green'}} dataSource={this.state.dataSource} renderRow={this.renderRow}></ListView>
       </View>
     );
