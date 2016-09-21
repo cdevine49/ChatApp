@@ -23,7 +23,6 @@ export default class PostMessage extends Component {
   }
 
   sendMessage() {
-    console.log(this.props.messageRef);
     this.props.messageRef.push({
       author: firebaseApp.auth().currentUser.displayName,
       content: this.state.message
